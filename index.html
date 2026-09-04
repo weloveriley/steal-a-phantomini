@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Steal A Phantomini</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#000;
+    color:#fff;
+    overflow-x:hidden;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    width:700px;
+    height:700px;
+    left:-280px;
+    top:-280px;
+    border-radius:50%;
+    background:rgba(255,255,255,.045);
+    filter:blur(150px);
+    z-index:-5;
+    animation:orbOne 12s ease-in-out infinite;
+}
+
+body::after{
+    content:"";
+    position:fixed;
+    width:650px;
+    height:650px;
+    right:-280px;
+    bottom:-280px;
+    border-radius:50%;
+    background:rgba(255,255,255,.035);
+    filter:blur(150px);
+    z-index:-5;
+    animation:orbTwo 14s ease-in-out infinite;
+}
+
+@keyframes orbOne{
+    0%,100%{
+        transform:translate(0,0);
+    }
+
+    50%{
+        transform:translate(120px,100px);
+    }
+}
+
+@keyframes orbTwo{
+    0%,100%{
+        transform:translate(0,0);
+    }
+
+    50%{
+        transform:translate(-120px,-100px);
+    }
+}
+
+.grid-bg{
+    position:fixed;
+    inset:0;
+    z-index:-4;
+    opacity:.09;
+    background-image:
+        linear-gradient(rgba(255,255,255,.15) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.15) 1px,transparent 1px);
+    background-size:70px 70px;
+    mask-image:linear-gradient(to bottom,black,transparent 80%);
+    animation:gridMove 20s linear infinite;
+}
+
+@keyframes gridMove{
+    from{
+        transform:translateY(0);
+    }
+
+    to{
+        transform:translateY(70px);
+    }
+}
+
+/* NAVBAR */
+
+nav{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:78px;
+    padding:0 7%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:rgba(0,0,0,.68);
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid rgba(255,255,255,.07);
+    z-index:1000;
+    transition:.3s;
+}
+
+.logo{
+    font-size:20px;
+    font-weight:1000;
+    letter-spacing:1px;
+}
+
+.logo span{
+    color:#fff;
+}
+
+.nav-links{
+    display:flex;
+    gap:35px;
+}
+
+.nav-links a{
+    color:#858585;
+    text-decoration:none;
+    font-size:13px;
+    font-weight:800;
+    transition:.25s;
+}
+
+.nav-links a:hover{
+    color:#fff;
+}
+
+.community-nav{
+    color:#000;
+    text-decoration:none;
+    font-size:12px;
+    font-weight:1000;
+    padding:12px 21px;
+    border-radius:10px;
+    background:#fff;
+    transition:.3s;
+}
+
+.community-nav:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 35px rgba(255,255,255,.18);
+}
+
+/* HERO */
+
+.hero{
+    min-height:900px;
+    padding:160px 7% 100px;
+    display:flex;
+    align-items:center;
+    position:relative;
+    overflow:hidden;
+}
+
+.hero-content{
+    width:53%;
+    position:relative;
+    z-index:3;
+}
+
+.status{
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+    padding:8px 14px;
+    border:1px solid rgba(255,255,255,.12);
+    background:rgba(255,255,255,.035);
+    border-radius:100px;
+    color:#aaa;
+    font-size:11px;
+    font-weight:900;
+    letter-spacing:1px;
+    margin-bottom:25px;
+}
+
+.status-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#fff;
+    box-shadow:0 0 14px #fff;
+    animation:statusPulse 1.5s infinite;
+}
+
+@keyframes statusPulse{
+    0%,100%{
+        opacity:1;
+        transform:scale(1);
+    }
+
+    50%{
+        opacity:.35;
+        transform:scale(.65);
+    }
+}
+
+.hero h1{
+    font-size:clamp(55px,7vw,105px);
+    line-height:.87;
+    letter-spacing:-6px;
+    font-weight:1000;
+    margin-bottom:30px;
+}
+
+.hero h1 .gradient{
+    background:linear-gradient(
+        90deg,
+        #fff,
+        #777,
+        #fff,
+        #444,
+        #fff
+    );
+    background-size:300%;
+    -webkit-background-clip:text;
+    color:transparent;
+    animation:titleGradient 5s ease infinite;
+}
+
+@keyframes titleGradient{
+    0%,100%{
+        background-position:0%;
+    }
+
+    50%{
+        background-position:100%;
+    }
+}
+
+.hero-description{
+    color:#777;
+    max-width:570px;
+    font-size:17px;
+    line-height:1.75;
+    margin-bottom:35px;
+}
+
+.countdown-title{
+    color:#aaa;
+    font-size:11px;
+    font-weight:1000;
+    letter-spacing:2px;
+    margin-bottom:13px;
+}
+
+.countdown{
+    display:flex;
+    gap:10px;
+    margin-bottom:32px;
+}
+
+.time-box{
+    min-width:82px;
+    padding:15px 12px;
+    text-align:center;
+    border-radius:12px;
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.09);
+    box-shadow:inset 0 0 25px rgba(255,255,255,.015);
+}
+
+.time-box strong{
+    display:block;
+    font-size:27px;
+    font-weight:1000;
+}
+
+.time-box span{
+    display:block;
+    color:#555;
+    font-size:9px;
+    font-weight:900;
+    letter-spacing:1px;
+    margin-top:5px;
+}
+
+.release-date{
+    color:#555;
+    font-size:11px;
+    font-weight:800;
+    margin-top:-20px;
+    margin-bottom:25px;
+}
+
+/* HERO ART */
+
+.hero-art{
+    position:absolute;
+    right:5%;
+    width:43%;
+    height:590px;
+    z-index:2;
+    perspective:1000px;
+}
+
+.art-card{
+    width:100%;
+    height:100%;
+    border-radius:30px;
+    position:relative;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,.09);
+    background:
+        radial-gradient(
+            circle at 50% 35%,
+            rgba(255,255,255,.10),
+            transparent 38%
+        ),
+        linear-gradient(145deg,#0c0c0c,#020202);
+    box-shadow:
+        0 0 100px rgba(255,255,255,.035),
+        inset 0 0 80px rgba(255,255,255,.025);
+    animation:cardFloat 6s ease-in-out infinite;
+}
+
+@keyframes cardFloat{
+    0%,100%{
+        transform:translateY(0) rotateY(-2deg);
+    }
+
+    50%{
+        transform:translateY(-14px) rotateY(2deg);
+    }
+}
+
+.art-card::before{
+    content:"";
+    position:absolute;
+    width:450px;
+    height:450px;
+    left:50%;
+    top:45%;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    background:#fff;
+    opacity:.035;
+    filter:blur(100px);
+}
+
+.art-card::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(
+            120deg,
+            transparent 30%,
+            rgba(255,255,255,.07) 50%,
+            transparent 70%
+        );
+    transform:translateX(-100%);
+    animation:shine 5s ease-in-out infinite;
+}
+
+@keyframes shine{
+    0%,50%{
+        transform:translateX(-100%);
+    }
+
+    75%,100%{
+        transform:translateX(100%);
+    }
+}
+
+.placeholder{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    z-index:2;
+}
+
+.placeholder-icon{
+    font-size:75px;
+    margin-bottom:18px;
+    filter:drop-shadow(0 0 30px rgba(255,255,255,.35));
+}
+
+.placeholder strong{
+    font-size:16px;
+    letter-spacing:1px;
+}
+
+.placeholder small{
+    margin-top:8px;
+    color:#444;
+}
+
+/* STATS */
+
+.stats{
+    width:86%;
+    margin:-35px auto 0;
+    position:relative;
+    z-index:10;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:20px;
+    background:rgba(8,8,8,.82);
+    backdrop-filter:blur(20px);
+    overflow:hidden;
+}
+
+.stat{
+    padding:29px;
+    text-align:center;
+    border-right:1px solid rgba(255,255,255,.06);
+}
+
+.stat:last-child{
+    border-right:0;
+}
+
+.stat h3{
+    font-size:25px;
+    margin-bottom:8px;
+}
+
+.stat p{
+    color:#555;
+    font-size:11px;
+    font-weight:900;
+    letter-spacing:1px;
+    text-transform:uppercase;
+}
+
+/* SECTIONS */
+
+section{
+    padding:125px 7%;
+}
+
+.label{
+    color:#888;
+    font-size:11px;
+    font-weight:1000;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    margin-bottom:15px;
+}
+
+.title{
+    font-size:50px;
+    letter-spacing:-2px;
+    margin-bottom:20px;
+}
+
+.description{
+    color:#666;
+    max-width:600px;
+    line-height:1.75;
+}
+
+/* ABOUT */
+
+.about-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:70px;
+    align-items:center;
+}
+
+.about-image{
+    height:370px;
+    border-radius:25px;
+    border:1px solid rgba(255,255,255,.07);
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255,255,255,.07),
+            transparent 55%
+        ),
+        #070707;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+}
+
+.about-image::before{
+    content:"";
+    position:absolute;
+    width:250px;
+    height:250px;
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:50%;
+    animation:spin 15s linear infinite;
+}
+
+.about-image::after{
+    content:"";
+    position:absolute;
+    width:330px;
+    height:330px;
+    border:1px dashed rgba(255,255,255,.07);
+    border-radius:50%;
+    animation:spinReverse 20s linear infinite;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+@keyframes spinReverse{
+    to{
+        transform:rotate(-360deg);
+    }
+}
+
+.about-placeholder{
+    font-size:60px;
+    z-index:2;
+}
+
+/* FEATURES */
+
+.features{
+    background:linear-gradient(
+        180deg,
+        transparent,
+        rgba(255,255,255,.018),
+        transparent
+    );
+}
+
+.feature-grid{
+    margin-top:55px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.feature{
+    padding:32px;
+    min-height:245px;
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,.07);
+    background:rgba(7,7,7,.8);
+    position:relative;
+    overflow:hidden;
+    transition:.35s;
+}
+
+.feature::before{
+    content:"";
+    position:absolute;
+    width:150px;
+    height:150px;
+    right:-60px;
+    top:-60px;
+    border-radius:50%;
+    background:#fff;
+    filter:blur(70px);
+    opacity:0;
+    transition:.35s;
+}
+
+.feature:hover{
+    transform:translateY(-9px);
+    border-color:rgba(255,255,255,.2);
+    box-shadow:0 20px 55px rgba(0,0,0,.45);
+}
+
+.feature:hover::before{
+    opacity:.07;
+}
+
+.feature-icon{
+    width:52px;
+    height:52px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:14px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.09);
+    font-size:23px;
+    margin-bottom:25px;
+}
+
+.feature h3{
+    font-size:19px;
+    margin-bottom:12px;
+}
+
+.feature p{
+    color:#666;
+    font-size:14px;
+    line-height:1.65;
+}
+
+/* UPDATES */
+
+.updates-grid{
+    margin-top:50px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.update{
+    padding:29px;
+    border-radius:19px;
+    background:#070707;
+    border:1px solid rgba(255,255,255,.06);
+    transition:.3s;
+}
+
+.update:hover{
+    transform:translateY(-6px);
+    border-color:rgba(255,255,255,.18);
+}
+
+.update-date{
+    color:#888;
+    font-size:10px;
+    font-weight:1000;
+    letter-spacing:1.5px;
+    margin-bottom:15px;
+}
+
+.update h3{
+    margin-bottom:10px;
+}
+
+.update p{
+    color:#666;
+    font-size:14px;
+    line-height:1.65;
+}
+
+/* COMMUNITY */
+
+.community{
+    text-align:center;
+}
+
+.community-box{
+    max-width:950px;
+    margin:auto;
+    padding:90px 40px;
+    border-radius:30px;
+    border:1px solid rgba(255,255,255,.1);
+    background:
+        radial-gradient(
+            circle at 50% 100%,
+            rgba(255,255,255,.07),
+            transparent 55%
+        ),
+        #070707;
+    position:relative;
+    overflow:hidden;
+}
+
+.community-box::before{
+    content:"";
+    position:absolute;
+    width:500px;
+    height:1px;
+    left:50%;
+    top:0;
+    transform:translateX(-50%);
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.8),
+        transparent
+    );
+}
+
+.community-box h2{
+    font-size:52px;
+    letter-spacing:-2px;
+    margin-bottom:18px;
+}
+
+.community-box p{
+    max-width:550px;
+    margin:0 auto 32px;
+    color:#666;
+    line-height:1.7;
+}
+
+.community-buttons{
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    flex-wrap:wrap;
+}
+
+.discord-button{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:16px 27px;
+    border-radius:11px;
+    color:#000;
+    background:#fff;
+    text-decoration:none;
+    font-weight:1000;
+    transition:.3s;
+}
+
+.discord-button:hover{
+    transform:translateY(-4px);
+    box-shadow:0 15px 40px rgba(255,255,255,.15);
+}
+
+.roblox-button{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:16px 27px;
+    border-radius:11px;
+    color:#fff;
+    background:#111;
+    border:1px solid rgba(255,255,255,.12);
+    text-decoration:none;
+    font-weight:1000;
+    transition:.3s;
+}
+
+.roblox-button:hover{
+    transform:translateY(-4px);
+    background:#181818;
+}
+
+/* CREDITS */
+
+.credits{
+    text-align:center;
+    padding-top:80px;
+    padding-bottom:110px;
+}
+
+.credits-box{
+    max-width:950px;
+    margin:auto;
+    padding:70px 40px;
+    border-radius:28px;
+    border:1px solid rgba(255,255,255,.07);
+    background:#050505;
+    position:relative;
+    overflow:hidden;
+}
+
+.credits-box::before{
+    content:"";
+    position:absolute;
+    width:350px;
+    height:350px;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    background:#fff;
+    opacity:.025;
+    filter:blur(100px);
+}
+
+.credits-box > *{
+    position:relative;
+    z-index:2;
+}
+
+.credits-title{
+    font-size:45px;
+    font-weight:1000;
+    letter-spacing:-2px;
+    margin-bottom:35px;
+}
+
+.credit-list{
+    display:flex;
+    justify-content:center;
+    gap:18px;
+    flex-wrap:wrap;
+}
+
+.credit{
+    min-width:210px;
+    padding:22px 28px;
+    border-radius:15px;
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.07);
+    transition:.3s;
+}
+
+.credit:hover{
+    transform:translateY(-6px);
+    border-color:rgba(255,255,255,.18);
+}
+
+.credit-name{
+    display:block;
+    font-size:17px;
+    font-weight:1000;
+    margin-bottom:7px;
+}
+
+.credit-role{
+    color:#555;
+    font-size:10px;
+    font-weight:900;
+    letter-spacing:1px;
+    text-transform:uppercase;
+}
+
+/* FOOTER */
+
+footer{
+    padding:35px 7%;
+    border-top:1px solid rgba(255,255,255,.06);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    color:#444;
+    font-size:12px;
+}
+
+.footer-logo{
+    color:#fff;
+    font-weight:1000;
+}
+
+.footer-logo span{
+    color:#777;
+}
+
+/* REVEAL */
+
+.reveal{
+    opacity:0;
+    transform:translateY(35px);
+    transition:
+        opacity .8s ease,
+        transform .8s ease;
+}
+
+.reveal.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+    nav{
+        padding:0 5%;
+    }
+
+    .nav-links{
+        display:none;
+    }
+
+    .hero{
+        padding:140px 6% 80px;
+        display:block;
+        min-height:auto;
+    }
+
+    .hero-content{
+        width:100%;
+    }
+
+    .hero h1{
+        font-size:65px;
+    }
+
+    .hero-art{
+        position:relative;
+        right:auto;
+        width:100%;
+        height:400px;
+        margin-top:55px;
+    }
+
+    .stats{
+        width:90%;
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .stat:nth-child(2){
+        border-right:0;
+    }
+
+    .stat:nth-child(-n+2){
+        border-bottom:1px solid rgba(255,255,255,.06);
+    }
+
+    section{
+        padding:90px 6%;
+    }
+
+    .about-grid{
+        grid-template-columns:1fr;
+        gap:35px;
+    }
+
+    .feature-grid,
+    .updates-grid{
+        grid-template-columns:1fr;
+    }
+
+    .title{
+        font-size:39px;
+    }
+
+    .community-box h2{
+        font-size:40px;
+    }
+
+    .credits-title{
+        font-size:37px;
+    }
+
+    footer{
+        flex-direction:column;
+        gap:15px;
+        text-align:center;
+    }
+}
+
+@media(max-width:500px){
+
+    .hero h1{
+        font-size:51px;
+        letter-spacing:-3px;
+    }
+
+    .hero-description{
+        font-size:15px;
+    }
+
+    .countdown{
+        gap:6px;
+    }
+
+    .time-box{
+        min-width:65px;
+        padding:12px 7px;
+    }
+
+    .time-box strong{
+        font-size:21px;
+    }
+
+    .hero-art{
+        height:330px;
+    }
+
+    .community-buttons a{
+        width:100%;
+    }
+
+    .credit{
+        width:100%;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="grid-bg"></div>
+
+<nav>
+
+<div class="logo">
+    STEAL A <span>PHANTOMINI</span>
+</div>
+
+<div class="nav-links">
+    <a href="#about">ABOUT</a>
+    <a href="#features">FEATURES</a>
+    <a href="#updates">UPDATES</a>
+    <a href="#community">COMMUNITY</a>
+    <a href="#credits">CREDITS</a>
+</div>
+
+<a
+    class="community-nav"
+    href="https://discord.gg/eJfGB46GV5"
+    target="_blank"
+>
+    DISCORD
+</a>
+
+</nav>
+
+<header class="hero">
+
+<div class="hero-content reveal">
+
+    <div class="status">
+        <div class="status-dot"></div>
+        RELEASE COMING SOON
+    </div>
+
+    <h1>
+        STEAL A<br>
+        <span class="gradient">PHANTOMINI</span>
+    </h1>
+
+    <p class="hero-description">
+        Steal. Collect. Build your collection.
+        Become the biggest Phantomini owner and
+        show everyone who's on top.
+    </p>
+
+    <div class="countdown-title">
+        THE GAME RELEASES IN
+    </div>
+
+    <div class="countdown">
+
+        <div class="time-box">
+            <strong id="days">00</strong>
+            <span>DAYS</span>
+        </div>
+
+        <div class="time-box">
+            <strong id="hours">00</strong>
+            <span>HOURS</span>
+        </div>
+
+        <div class="time-box">
+            <strong id="minutes">00</strong>
+            <span>MINUTES</span>
+        </div>
+
+        <div class="time-box">
+            <strong id="seconds">00</strong>
+            <span>SECONDS</span>
+        </div>
+
+    </div>
+
+    <div class="release-date">
+        SUNDAY • SEPTEMBER 20, 2026 • 6:00 PM BST
+    </div>
+
+</div>
+
+
+<div class="hero-art">
+
+    <div class="art-card">
+
+        <div class="placeholder">
+
+            <div class="placeholder-icon">
+                👻
+            </div>
+
+            <strong>
+                PHANTOMINI ARTWORK
+            </strong>
+
+            <small>
+                Your game artwork will go here
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+
+</header>
+
+<div class="stats reveal">
+
+<div class="stat">
+    <h3>SOON</h3>
+    <p>Players</p>
+</div>
+
+<div class="stat">
+    <h3>SOON</h3>
+    <p>Visits</p>
+</div>
+
+<div class="stat">
+    <h3>SOON</h3>
+    <p>Likes</p>
+</div>
+
+<div class="stat">
+    <h3>NOT LIVE</h3>
+    <p>Game Status</p>
+</div>
+
+</div>
+
+<section id="about">
+
+<div class="about-grid">
+
+    <div class="reveal">
+
+        <div class="label">
+            THE GAME
+        </div>
+
+        <h2 class="title">
+            Welcome to<br>
+            <span style="color:#888;">
+                Phantomini.
+            </span>
+        </h2>
+
+        <p class="description">
+            Steal a phantomini is a new roblox game where
+            players grind and collect brainrots to climb
+            there way to the top of the leaderboard.
+            Players can also become the top stealers by
+            using gears to steal other players best stuff.
+        </p>
+
+    </div>
+
+
+    <div class="about-image reveal">
+
+        <div class="about-placeholder">
+            👻
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+<section
+    id="features"
+    class="features"
+>
+
+<div class="reveal">
+
+    <div class="label">
+        GAMEPLAY
+    </div>
+
+    <h2 class="title">
+        Steal.<br>
+        <span style="color:#888;">
+            Collect. Dominate.
+        </span>
+    </h2>
+
+    <p class="description">
+        Grind, collect brainrots, steal from other
+        players and climb your way to the top.
+    </p>
+
+</div>
+
+
+<div class="feature-grid">
+
+    <div class="feature reveal">
+
+        <div class="feature-icon">
+            💰
+        </div>
+
+        <h3>
+            Collect Money
+        </h3>
+
+        <p>
+            Collect money and become one of the richest
+            players in the game.
+        </p>
+
+    </div>
+
+
+    <div class="feature reveal">
+
+        <div class="feature-icon">
+            🏃
+        </div>
+
+        <h3>
+            Become Sneaky
+        </h3>
+
+        <p>
+            Become sneaky and steal other peoples
+            brainrots.
+        </p>
+
+    </div>
+
+
+    <div class="feature reveal">
+
+        <div class="feature-icon">
+            🏆
+        </div>
+
+        <h3>
+            Become The Best
+        </h3>
+
+        <p>
+            Collect rare and op stuff and climb
+            your way to the top.
+        </p>
+
+    </div>
+
+</div>
+
+</section>
+
+<section id="updates">
+
+<div class="reveal">
+
+    <div class="label">
+        NEWS
+    </div>
+
+    <h2 class="title">
+        Latest updates.
+    </h2>
+
+    <p class="description">
+        Keep up with everything happening during the
+        development of Steal A Phantomini.
+    </p>
+
+</div>
+
+
+<div class="updates-grid">
+
+    <div class="update reveal">
+
+        <div class="update-date">
+            SEPTEMBER 2026
+        </div>
+
+        <h3>
+            Website Launch
+        </h3>
+
+        <p>
+            The official Steal A Phantomini website
+            is now live.
+        </p>
+
+    </div>
+
+
+    <div class="update reveal">
+
+        <div class="update-date">
+            COMING SOON
+        </div>
+
+        <h3>
+            Game Release
+        </h3>
+
+        <p>
+            Steal A Phantomini releases on
+            September 20, 2026 at 6 PM BST.
+        </p>
+
+    </div>
+
+
+    <div class="update reveal">
+
+        <div class="update-date">
+            SOON
+        </div>
+
+        <h3>
+            More Reveals
+        </h3>
+
+        <p>
+            New Phantomini, features and other
+            game details will be revealed soon.
+        </p>
+
+    </div>
+
+</div>
+
+</section>
+
+<section
+    id="community"
+    class="community"
+>
+
+<div class="community-box reveal">
+
+    <div class="label">
+        COMMUNITY
+    </div>
+
+    <h2>
+        Join the Phantomini.
+    </h2>
+
+    <p>
+        Join the community for announcements,
+        sneak peeks, updates, events and more.
+    </p>
+
+    <div class="community-buttons">
+
+        <a
+            class="discord-button"
+            href="https://discord.gg/eJfGB46GV5"
+            target="_blank"
+        >
+            💬 JOIN DISCORD
+        </a>
+
+        <a
+            class="roblox-button"
+            href="https://www.roblox.com/communities/1096448224/Steal-a-ZNC#!/about"
+            target="_blank"
+        >
+            🎮 ROBLOX COMMUNITY
+        </a>
+
+    </div>
+
+</div>
+
+</section>
+
+<!-- CREDITS -->
+
+<section
+    id="credits"
+    class="credits"
+>
+
+<div class="credits-box reveal">
+
+    <div class="label">
+        THE TEAM
+    </div>
+
+    <h2 class="credits-title">
+        Credits
+    </h2>
+
+    <div class="credit-list">
+
+        <div class="credit">
+
+            <span class="credit-name">
+                RILEY
+            </span>
+
+            <span class="credit-role">
+                OWNER / DEVELOPER
+            </span>
+
+        </div>
+
+
+        <div class="credit">
+
+            <span class="credit-name">
+                STEAL A PHANTOMINI
+            </span>
+
+            <span class="credit-role">
+                GAME
+            </span>
+
+        </div>
+
+
+        <div class="credit">
+
+            <span class="credit-name">
+                COMMUNITY
+            </span>
+
+            <span class="credit-role">
+                SUPPORT
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+<footer>
+
+<div class="footer-logo">
+    STEAL A <span>PHANTOMINI</span>
+</div>
+
+<div>
+    © 2026 Steal A Phantomini
+</div>
+
+<div>
+    Made for Roblox.
+</div>
+
+</footer>
+
+<script>
+
+const releaseDate =
+    new Date("2026-09-20T18:00:00+01:00").getTime();
+
+
+function updateCountdown(){
+
+    const now =
+        new Date().getTime();
+
+    const distance =
+        releaseDate - now;
+
+
+    if(distance <= 0){
+
+        document.getElementById("days").textContent = "00";
+        document.getElementById("hours").textContent = "00";
+        document.getElementById("minutes").textContent = "00";
+        document.getElementById("seconds").textContent = "00";
+
+        document.querySelector(".countdown-title").textContent =
+            "STEAL A PHANTOMINI IS NOW LIVE";
+
+        return;
+    }
+
+
+    const days =
+        Math.floor(
+            distance /
+            (1000 * 60 * 60 * 24)
+        );
+
+    const hours =
+        Math.floor(
+            (distance %
+            (1000 * 60 * 60 * 24)) /
+            (1000 * 60 * 60)
+        );
+
+    const minutes =
+        Math.floor(
+            (distance %
+            (1000 * 60 * 60)) /
+            (1000 * 60)
+        );
+
+    const seconds =
+        Math.floor(
+            (distance %
+            (1000 * 60)) /
+            1000
+        );
+
+
+    document.getElementById("days").textContent =
+        String(days).padStart(2,"0");
+
+    document.getElementById("hours").textContent =
+        String(hours).padStart(2,"0");
+
+    document.getElementById("minutes").textContent =
+        String(minutes).padStart(2,"0");
+
+    document.getElementById("seconds").textContent =
+        String(seconds).padStart(2,"0");
+
+}
+
+
+updateCountdown();
+
+setInterval(
+    updateCountdown,
+    1000
+);
+
+
+const reveals =
+    document.querySelectorAll(".reveal");
+
+
+const observer =
+    new IntersectionObserver(
+        entries => {
+
+            entries.forEach(entry => {
+
+                if(entry.isIntersecting){
+
+                    entry.target.classList.add("show");
+
+                }
+
+            });
+
+        },
+        {
+            threshold:0.12
+        }
+    );
+
+
+reveals.forEach(element => {
+
+    observer.observe(element);
+
+});
+
+
+window.addEventListener("scroll", () => {
+
+    const nav =
+        document.querySelector("nav");
+
+
+    if(window.scrollY > 30){
+
+        nav.style.background =
+            "rgba(0,0,0,.92)";
+
+    }else{
+
+        nav.style.background =
+            "rgba(0,0,0,.68)";
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
